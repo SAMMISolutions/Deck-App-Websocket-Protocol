@@ -377,7 +377,7 @@ Fired when `data.requestSuccess` is `false` and `data.responseData` only contain
 {
     "eventType": "DeckUpdated",
     "eventData": { 
-        "deckData": {object} // an object containing full, updated deck's data. includes all buttons, their triggers, commands, everything. this needs to only return shallow buttons, not nested data in them. Fixme.
+        "deckData": {object} // an object containing full, updated deck's data.
     }	
 }
 ```
@@ -389,8 +389,8 @@ Fired when `data.requestSuccess` is `false` and `data.responseData` only contain
     "eventType": "DeckAdded",
     "eventData": { 
         "deckData": {
-					"deckName": {object} // an object containing full added deck data. button list array empty.
-				}  	
+		"deckName": {object} // an object containing full added deck data. button list array empty.
+	}  	
     }	
 }
 ```
@@ -402,9 +402,9 @@ Fired when `data.requestSuccess` is `false` and `data.responseData` only contain
     "eventType": "DeckRemoved",
     "eventData": { 
         "deckData": {
-					"deckId:" {string},
-					"deckName": {string}
-				}  	
+		"deckId:" {string},
+		"deckName": {string}
+	}  	
     }	
 }
 ```
@@ -473,7 +473,7 @@ Fired when `data.requestSuccess` is `false` and `data.responseData` only contain
         "variableName": {string},
         "timeoutAfter": {number},
         "message": {string},
-        "choices": {Array}, //looks like it sends array if exists, but sends a string of an empty one if not...??? probably bug fix
+        "choices": {Array},
         "defaultInput": {string}
     }
 }
