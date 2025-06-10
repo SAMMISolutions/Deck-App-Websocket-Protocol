@@ -1,4 +1,16 @@
-# Panel-Websocket-Protocol
+# Deck App Websocket Protocol
+
+Deck app protocol using an RPC schema to interface with SAMMI decks. This is only intended for developers wanting to make third-party tools for SAMMI, and not typical SAMMI users! 
+
+## Introduction
+
+Requests and responses are defined by their Operation (`op`) codes included in the payload. Check [Codes](#codes) the protocol expects to send and recieve.
+
+To keep the connection alive, you need to listen for op code `1`, which is a ping pong event. when recieved, respond with the same payload back.
+
+Some requests that return a response allow you to include an `id` along with their payloads, which accepts a string and will include it with the response to help you identify what response goes where. If you dont need to know the response to your request you can ommit adding an id.
+
+## Codes
 
 | Code | Name | Client Action | Description |
 | --- | --- | --- | --- |
@@ -11,6 +23,15 @@
 | 6 | Event | Receive | An event from SAMMI. |
 | 7 | Close Event | Send/Receive | Client or SAMMI is closing connection. |
 
+As GMS is unable to send a specific close code when it terminates the websocket connection, the received regular payload will be in the following format before the connection is terminated from the server side. The client should close the connection on their own when it receives the following message:
+
+```
+{			
+	"op": 7, 
+	"errorCode": {int} // one of the error codes from the table above
+}
+```
+
 | Close Code | Description | Explanation |
 | --- | --- | --- |
 | 4000 | Unknown error. | Something went wrong and the connection was closed. Try reconnecting. |
@@ -22,14 +43,8 @@
 | 4006 | Closed by SAMMI. | The connection was closed by SAMMI, i.e. when user closes the application. |
 | 4007 | Connection timed out. | The connection timed out due to not receiving heartbeat from the client. |
 
-As GMS is unable to send a specific close code when it terminates the websocket connection, the received regular payload will be in the following format before the connection is terminated from the server side. The client should close the connection on their own when it receives the following message:
 
-```
-{			
-"op": 7, 
-"errorCode": {int} // one of the error codes from the table above
-}
-```
+## Structures
 
 op 0 Hello JSON Structure:
 
@@ -46,7 +61,7 @@ op 0 Hello JSON Structure:
 }
 ```
 
-op 1 Heartbeat JSON Structure:
+op 1 Ping Pong JSON Structure:
 
 ```
 {			
